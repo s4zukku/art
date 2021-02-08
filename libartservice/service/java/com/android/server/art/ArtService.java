@@ -24,7 +24,9 @@ package com.android.server.art;
 public final class ArtService implements ArtServiceInternal {
     static final String LOG_TAG = "ArtService";
 
-    static String getMsg() {
+    ArtService() {}
+
+    public String getMsg() {
         return "Hello world!";
     }
 }
