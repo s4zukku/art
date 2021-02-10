@@ -33,13 +33,19 @@ cc_library {
     cflags: ["-Werror"],
 }
 
-java_library {
-    // This Java Language Library contains the ART Service class that will be
-    // loaded by the System Server.
-
-    name: "artservice",
+// Provides the API and implementation of the ART Service class that will be
+// loaded by the System Server.
+java_sdk_library {
+    name: "service-art",
+    defaults: ["framework-system-server-module-defaults"],
+    permitted_packages: ["android.os.ext"],
     visibility: [
         "//art:__subpackages__",
+        "//frameworks/base/services/core",
+    ],
+
+    impl_library_visibility: [
+        "//art/libartservice/tests",
     ],
 
     apex_available: [
@@ -48,9 +54,31 @@ java_library {
     ],
 
     sdk_version: "core_platform",
+    min_sdk_version: "30",
+
+    // This is not actually part of the public API but this is the only
+    // way to define a custom API surface.
+    public: {
+        enabled: true,
+    },
+
+    // The API elements are the ones annotated with
+    //   libcore.api.CorePlatformApi(status=libcore.api.CorePlatformApi.Status.STABLE)
+    droiddoc_options: [
+        "--show-single-annotation libcore.api.CorePlatformApi\\(status=libcore.api.CorePlatformApi.Status.STABLE\\)",
+    ],
+
+    // Temporarily disable compatibility with previous released APIs.
+    // TODO - remove once prototype has stabilized
+    //   running "m update-api" will give instructions on what to do next
+    unsafe_ignore_missing_latest_api: true,
+
+    // This cannot be accessed by apps using <uses-library> in their manifest.
+    shared_library: false,
 
     srcs: [
         "service/java/com/android/server/art/ArtService.java",
+        "service/java/com/android/server/art/ArtServiceInternal.java",
     ],
 
     libs: [

@@ -17,14 +17,8 @@
 package com.android.server.art;
 
 /**
- * This class provides a system API for functionality provided by the ART
- * module.
+ * Definition of the System Server interface to the ArtService local service object.
  */
-@libcore.api.CorePlatformApi(status = libcore.api.CorePlatformApi.Status.STABLE)
-public final class ArtService implements ArtServiceInternal {
-    static final String LOG_TAG = "ArtService";
-
-    static String getMsg() {
-        return "Hello world!";
-    }
+public interface ArtServiceInternal {
+    public String getMsg();
 }

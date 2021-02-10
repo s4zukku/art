@@ -1,0 +1,9 @@
+// Signature format: 2.0
+package com.android.server.art {
+
+  public final class ArtService implements com.android.server.art.ArtServiceInternal {
+    method public String getMsg();
+  }
+
+}
+
